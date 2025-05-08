@@ -11,10 +11,10 @@ const Home = () => {
   return (
     <div className="flex flex-col items-center space-y-7 text-center">
       <Hero />
-      <Companies />
+      {/* <Companies /> */}
       <CoursesSection />
-      <TestimonialsSection />
-      <CallToAction />
+      {/* <TestimonialsSection /> */}
+      {/* <CallToAction /> */}
       <Footer />
     </div>
   );
