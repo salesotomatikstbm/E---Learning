@@ -121,6 +121,10 @@ const CourseDetails = () => {
 
           <p className='text-sm'>Course by <span className='text-blue-600 underline'>{courseData.educator.name}</span></p>
 
+
+
+
+
           <div className="pt-8 text-gray-800">
             <h2 className="text-xl font-semibold">Course Structure</h2>
             <div className="pt-5">
@@ -131,34 +135,64 @@ const CourseDetails = () => {
                     onClick={() => toggleSection(index)}
                   >
                     <div className="flex items-center gap-2">
-                      <img src={assets.down_arrow_icon} alt="arrow icon" className={`transform transition-transform ${openSections[index] ? "rotate-180" : ""}`} />
+                      <img
+                        src={assets.down_arrow_icon}
+                        alt="arrow icon"
+                        className={`transform transition-transform ${openSections[index] ? "rotate-180" : ""
+                          }`}
+                      />
                       <p className="font-medium md:text-base text-sm">{chapter.chapterTitle}</p>
                     </div>
-                    <p className="text-sm md:text-default">{chapter.chapterContent.length} lectures - {calculateChapterTime(chapter)}</p>
+                    <p className="text-sm md:text-default">
+                      {chapter.chapterContent.length} lectures - {calculateChapterTime(chapter)}
+                    </p>
                   </div>
 
-                  <div className={`overflow-hidden transition-all duration-300 ${openSections[index] ? "max-h-96" : "max-h-0"}`} >
+                  <div
+                    className={`overflow-hidden transition-all duration-300 ${openSections[index] ? "max-h-[1000px]" : "max-h-0"
+                      }`}
+                  >
                     <ul className="list-disc md:pl-10 pl-4 pr-4 py-2 text-gray-600 border-t border-gray-300">
                       {chapter.chapterContent.map((lecture, i) => (
-                        <li key={i} className="flex items-start gap-2 py-1">
-                          <img src={assets.play_icon} alt="bullet icon" className="w-4 h-4 mt-1" />
-                          <div className="flex items-center justify-between w-full text-gray-800 text-xs md:text-default">
-                            <p>{lecture.lectureTitle}</p>
-                            <div className='flex gap-2'>
-                              {lecture.isPreviewFree && <p onClick={() => setPlayerData({
-                                videoId: lecture.lectureUrl.split('/').pop()
-                              })} className='text-blue-500 cursor-pointer'>Preview</p>}
-                              <p>{humanizeDuration(lecture.lectureDuration * 60 * 1000, { units: ['h', 'm'] })}</p>
+                        <li key={i} className="flex flex-col gap-2 py-2">
+                          <div className="flex items-start gap-2">
+                            <img src={assets.play_icon} alt="bullet icon" className="w-4 h-4 mt-1" />
+                            <div className="flex justify-between w-full text-gray-800 text-xs md:text-default">
+                              <p>{lecture.lectureTitle}</p>
+                              <div className="flex gap-2">
+                                {lecture.isPreviewFree && (
+                                  <p className="text-blue-500">Free Preview</p>
+                                )}
+                                <p>{humanizeDuration(lecture.lectureDuration * 60 * 1000, { units: ['h', 'm'] })}</p>
+                              </div>
                             </div>
                           </div>
+
+                          {/* Show embedded YouTube video for preview */}
+                          {lecture.isPreviewFree && lecture.lectureUrl && (
+                            <div className="w-full mt-2">
+                              <YouTube
+                                videoId={lecture.lectureUrl?.includes('v=')
+                                  ? lecture.lectureUrl.split('v=')[1]?.split('&')[0]
+                                  : lecture.lectureUrl.split('/').pop()}
+                                opts={{ height: "215", width: "100%", playerVars: { autoplay: 0 } }}
+                                iframeClassName="rounded border"
+                              />
+                            </div>
+                          )}
                         </li>
                       ))}
+
                     </ul>
                   </div>
                 </div>
               ))}
             </div>
           </div>
+
+
+
+
 
           <div className="py-20 text-sm md:text-default">
             <h3 className="text-xl font-semibold text-gray-800">Course Description</h3>
@@ -170,14 +204,14 @@ const CourseDetails = () => {
         <div className="max-w-course-card z-10 shadow-custom-card rounded-t md:rounded-none overflow-hidden bg-white min-w-[300px] sm:min-w-[420px]">
           {
             playerData
-              ? <YouTube videoId={playerData.videoId} opts={{ playerVars: { autoplay: 1 } }} iframeClassName='w-full aspect-video' />
+              ? <YouTube videoId={playerData.videoId} opts={{ playerVars: { autoplay: 1 } }} iframeClassName='w-100% aspect-video' />
               : <img src={courseData.courseThumbnail} alt="" />
           }
           <div className="p-5">
             <div className="flex items-center gap-2">
               <img className="w-3.5" src={assets.time_left_clock_icon} alt="time left clock icon" />
               <p className="text-red-500">
-                <span className="font-medium">5 days</span> left at this price!
+                <span className="font-medium">6 days</span> left at this price!
               </p>
             </div>
             <div className="flex gap-3 items-center pt-2">
