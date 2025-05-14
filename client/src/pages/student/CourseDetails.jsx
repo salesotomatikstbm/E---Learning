@@ -125,6 +125,16 @@ const CourseDetails = () => {
 
 
 
+
+
+
+
+
+
+
+
+
+
           <div className="pt-8 text-gray-800">
             <h2 className="text-xl font-semibold">Course Structure</h2>
             <div className="pt-5">
@@ -168,18 +178,26 @@ const CourseDetails = () => {
                             </div>
                           </div>
 
-                          {/* Show embedded YouTube video for preview */}
-                          {lecture.isPreviewFree && lecture.lectureUrl && (
-                            <div className="w-full mt-2">
-                              <YouTube
-                                videoId={lecture.lectureUrl?.includes('v=')
-                                  ? lecture.lectureUrl.split('v=')[1]?.split('&')[0]
-                                  : lecture.lectureUrl.split('/').pop()}
-                                opts={{ height: "215", width: "100%", playerVars: { autoplay: 0 } }}
-                                iframeClassName="rounded border"
-                              />
-                            </div>
-                          )}
+
+
+                  {lecture.isPreviewFree && lecture.lectureUrl && (
+  <div className="w-full mt-2">
+    <a
+      href={lecture.lectureUrl.replace("/view?embed", "/view")}  // Clean the full-view URL
+      target="_blank"
+      rel="noopener noreferrer"
+      className="inline-block px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-700"
+    >
+      View Presentation
+    </a>
+  </div>
+)}
+
+
+
+
+
+
                         </li>
                       ))}
 
@@ -189,6 +207,19 @@ const CourseDetails = () => {
               ))}
             </div>
           </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
